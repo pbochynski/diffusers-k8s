@@ -16,5 +16,8 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# Default command
-CMD ["python", "generate_image.py"]
+# Expose the output directory as an HTTP server
+WORKDIR /output
+
+# Default command starts HTTP server
+CMD ["python3", "-m", "http.server", "8000"]
