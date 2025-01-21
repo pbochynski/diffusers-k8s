@@ -10,7 +10,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 # Install PyTorch and diffusers
 RUN pip install --upgrade pip && \
-    pip install torch torchvision diffusers[torch] accelerate
+    pip install -f requirements.txt
 
 # Set up workspace
 WORKDIR /app
