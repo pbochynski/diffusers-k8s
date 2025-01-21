@@ -8,13 +8,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Set Python3 as default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
-# Install PyTorch and diffusers
-RUN pip install --upgrade pip && \
-    pip install -f requirements.txt
-
-# Set up workspace
 WORKDIR /app
 COPY ./*.py /app
+COPY requirements.txt /app/requirements.txt
+
+# Install PyTorch and diffusers
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
 # Default command
 CMD ["python", "generate_image.py"]
