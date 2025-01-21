@@ -17,9 +17,6 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-  DRIVER_VERSION: 560.35.03
-  GARDENLINUX_VERSION: 1592.4  
-
 
 jobs:
   build:
@@ -81,10 +78,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
-          build-args: |
-            TARGET_ARCH=amd64
-            DRIVER_VERSION=${{ env.DRIVER_VERSION }}
-            GARDENLINUX_VERSION=${{ env.GARDENLINUX_VERSION }}
           
 
       # Sign the resulting Docker image digest except on PRs.
