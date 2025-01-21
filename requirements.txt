@@ -1,0 +1,9 @@
+torch
+torchvision
+numpy
+transformers
+diffusers
+accelerate
+sentencepiece
+gradio
+protobuf
