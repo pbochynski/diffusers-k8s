@@ -9,15 +9,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 WORKDIR /app
-COPY ./*.py /app
 COPY requirements.txt /app/requirements.txt
 
 # Install PyTorch and diffusers
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# Expose the output directory as an HTTP server
-WORKDIR /output
+COPY ./*.py /app
 
 # Default command starts HTTP server
 CMD ["python3", "-m", "http.server", "8000"]
