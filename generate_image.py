@@ -9,7 +9,8 @@ parser = argparse.ArgumentParser(description="Generate an image using a diffusio
 parser.add_argument("--device", type=str, choices=["cpu", "cuda", "mps"], default="cpu", help="Device to run the model on (cpu, cuda, mps)")
 parser.add_argument("--enable_sequential_cpu_offload", type=bool, default=True, help="Enable sequential CPU offload (true/false)")
 parser.add_argument("--steps", type=int, default=1, help="Number of inference steps")
-parser.add_argument("--prompt", type=str, default="A detailed macro photo of LEGO minifigures as software developers in an open-space office. The main figure in front holds a sign with \"Kyma,\" written with blue font on white background. Minifigures are surrounded by desks, laptops, coffee mugs, and coding equipment. Realistic lighting highlights the vibrant colors and fine LEGO textures.", help="Prompt for the image generation")
+parser.add_argument("--prompt", type=str, default="A detailed macro photo of LEGO minifigures as software developers in an open-space office. The main figure in front holds a sign with \"Kyma\" written with blue font on white background. Minifigures are surrounded by desks, laptops, coffee mugs, and coding equipment. Realistic lighting highlights the vibrant colors and fine LEGO textures.", help="Prompt for the image generation")
+parser.add_argument("--seed", type=int, help="Random seed for image generation")
 
 
 args = parser.parse_args()
@@ -21,8 +22,8 @@ if args.enable_sequential_cpu_offload:
     model.enable_sequential_cpu_offload(device=device)
 model.enable_attention_slicing()
 
-# Generate random seed
-seed = random.randint(0, 2**32 - 1)
+# Use provided seed or generate a random one
+seed = args.seed if args.seed is not None else random.randint(0, 2**32 - 1)
 
 # Generate image
 prompt = args.prompt
