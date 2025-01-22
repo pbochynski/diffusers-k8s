@@ -38,6 +38,13 @@ output_dir = "output"
 os.makedirs(output_dir, exist_ok=True)
 
 # Save image with seed in filename
-output_filename = f"output/lego-{seed}.png"
+output_filename = f"{output_dir}/img-{seed}-{args.steps}.png"
 image.save(output_filename)
+
+# Save prompt to a text file with the same filename
+prompt_filename = f"{output_dir}/img-{seed}-{args.steps}.txt"
+with open(prompt_filename, "w") as f:
+    f.write(prompt)
+
 print(f"Image saved to {output_filename}")
+print(f"Prompt saved to {prompt_filename}")
