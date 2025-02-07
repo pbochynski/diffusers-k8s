@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-cache-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi # Matches the PV size
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: output-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi # 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: image-generator
+spec:
+  containers:
+    - name: image-generator
+      image: ghcr.io/pbochynski/diffusers-k8s:0.0.5
+      ports:
+        - containerPort: 8000
+      volumeMounts:
+        - name: model-cache
+          mountPath: /root/.cache/huggingface
+        - name: output
+          mountPath: /app/output
+      resources:
+        limits:
+          nvidia.com/gpu: 1 # Ensure GPU is requested
+  volumes:
+    - name: model-cache
+      persistentVolumeClaim:
+        claimName: model-cache-pvc  
+    - name: output
+      persistentVolumeClaim:
+        claimName: output-pvc
